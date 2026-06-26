@@ -1,0 +1,6 @@
+name: onigokkopuraguinn
+version: '${version}'
+
+main: com.brico.onigokkopuraguinn.Onigokkopuraguinn
+api-version: '26.2'
+load: POSTWORLD
