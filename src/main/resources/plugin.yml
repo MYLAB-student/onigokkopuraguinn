@@ -4,3 +4,11 @@ version: '${version}'
 main: com.brico.onigokkopuraguinn.Onigokkopuraguinn
 api-version: '26.2'
 load: POSTWORLD
+
+commands:
+  gamestart:
+    description: ゲームを開始し、登録済みチェストにアイテムを配置します
+    usage: /gamestart
+  gamereset:
+    description: 登録済みチェストの解除と中身のリセットを行います
+    usage: /gamereset
