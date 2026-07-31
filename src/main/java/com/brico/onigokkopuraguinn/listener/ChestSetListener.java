@@ -30,17 +30,17 @@ public class ChestSetListener implements Listener {
         boolean added = manager.addChest(block.getLocation());
 
         if (!added) {
-            player.sendMessage("§e[ゲーム] このチェストはすでに登録されています。"
-                    + " (登録数: " + manager.getChestLocations().size() + ")");
+            player.sendMessage("§e[ゲーム] このチェストはすでに選択されています。"
+                    + " (選択数: " + manager.getChestLocations().size() + ")");
             return;
         }
 
         int count = manager.getChestLocations().size();
         int required = GameManager.requiredChestCount();
         String status = count >= required
-                ? " §a(必要数 " + required + " 達成！)"
+                ? " §a(必要数 " + required + " 達成！ /gamestart で開始)"
                 : " §7(あと " + (required - count) + " 個)";
 
-        player.sendMessage("§a[ゲーム] チェストを登録しました。(登録数: " + count + ")" + status);
+        player.sendMessage("§a[ゲーム] チェストを選択しました。(選択数: " + count + ")" + status);
     }
 }

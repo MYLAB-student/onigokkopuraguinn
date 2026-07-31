@@ -7,8 +7,18 @@ load: POSTWORLD
 
 commands:
   gamestart:
-    description: ゲームを開始し、登録済みチェストにアイテムを配置します
+    description: ブレイズロッドで選択中のチェストを自動登録し、アイテムを配置してゲームを開始します
     usage: /gamestart
+    permission: onigokkopuraguinn.gamestart
   gamereset:
-    description: 登録済みチェストの解除と中身のリセットを行います
+    description: 登録済みチェストの中身だけ空にします（登録は残ります）
     usage: /gamereset
+    permission: onigokkopuraguinn.gamereset
+
+permissions:
+  onigokkopuraguinn.gamestart:
+    description: /gamestart を実行できます（コマンドブロック可）
+    default: true
+  onigokkopuraguinn.gamereset:
+    description: /gamereset を実行できます（コマンドブロック可）
+    default: true
