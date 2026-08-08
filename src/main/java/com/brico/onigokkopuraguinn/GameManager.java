@@ -137,9 +137,9 @@ public class GameManager {
         chestLocations.clear();
     }
 
-    /** ゲームで使うアイテム数（木の棒×2 + 鉄の延べ棒×3） */
+    /** ゲームで使うアイテム数（木の棒×2 + 鉄の延べ棒×3 + トリップワイヤーフック×1） */
     public static int requiredChestCount() {
-        return 5;
+        return 6;
     }
 
     /** 登録済みチェストをシャッフルして先頭 N 件を返す */

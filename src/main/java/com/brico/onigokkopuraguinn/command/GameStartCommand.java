@@ -30,7 +30,7 @@ public class GameStartCommand implements CommandExecutor {
     private static final double POLICE_Y = -60;
     private static final double POLICE_Z = -22;
 
-    /** 配布するアイテム: 木の棒×2、鉄の延べ棒×3 */
+    /** 配布するアイテム: 木の棒×2、鉄の延べ棒×3、トリップワイヤーフック×1 */
     private static List<ItemStack> createGameItems() {
         List<ItemStack> items = new ArrayList<>();
         items.add(new ItemStack(Material.STICK));
@@ -38,6 +38,7 @@ public class GameStartCommand implements CommandExecutor {
         items.add(new ItemStack(Material.IRON_INGOT));
         items.add(new ItemStack(Material.IRON_INGOT));
         items.add(new ItemStack(Material.IRON_INGOT));
+        items.add(new ItemStack(Material.TRIPWIRE_HOOK));
         return items;
     }
 
