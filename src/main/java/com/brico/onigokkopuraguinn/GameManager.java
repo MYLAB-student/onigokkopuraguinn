@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -147,5 +148,31 @@ public class GameManager {
         List<Location> copy = new ArrayList<>(chestLocations);
         Collections.shuffle(copy);
         return copy.subList(0, Math.min(count, copy.size()));
+    }
+
+    /**
+     * 登録済みチェストのうちランダムな1つにアイテムを入れる。
+     *
+     * @return 配置できたら true
+     */
+    public boolean placeItemInRandomChest(ItemStack item) {
+        if (chestLocations.isEmpty()) {
+            return false;
+        }
+
+        List<Location> shuffled = new ArrayList<>(chestLocations);
+        Collections.shuffle(shuffled);
+
+        for (Location loc : shuffled) {
+            Block block = loc.getBlock();
+            if (!(block.getState() instanceof Chest chest)) {
+                continue;
+            }
+            Map<Integer, ItemStack> leftover = chest.getInventory().addItem(item);
+            if (leftover.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

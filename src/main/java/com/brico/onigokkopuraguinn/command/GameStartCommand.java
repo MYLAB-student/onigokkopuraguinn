@@ -1,7 +1,9 @@
 package com.brico.onigokkopuraguinn.command;
 
 import com.brico.onigokkopuraguinn.GameManager;
+import com.brico.onigokkopuraguinn.PoliceBaton;
 import com.brico.onigokkopuraguinn.Role;
+import com.brico.onigokkopuraguinn.listener.AdventurePickaxeListener;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -71,6 +73,11 @@ public class GameStartCommand implements CommandExecutor {
         Player police = manager.assignRoles(players);
         notifyRoles(players, police);
         teleportByRole(players);
+        givePoliceBaton(police);
+
+        for (Player player : players) {
+            AdventurePickaxeListener.applyToPlayer(player);
+        }
 
         List<ItemStack> items = createGameItems();
         Collections.shuffle(items);
@@ -98,6 +105,12 @@ public class GameStartCommand implements CommandExecutor {
                 + "警察 1人 / 泥棒 " + (players.size() - 1) + "人、"
                 + "チェスト " + distributed + " 個にアイテムを配置しました。");
         return true;
+    }
+
+    private static void givePoliceBaton(Player police) {
+        if (police == null) return;
+        police.getInventory().addItem(PoliceBaton.create());
+        police.sendMessage("§9[ゲーム] 警棒を受け取りました。泥棒を殴って捕まえよう！");
     }
 
     private static void notifyRoles(List<Player> players, Player police) {
