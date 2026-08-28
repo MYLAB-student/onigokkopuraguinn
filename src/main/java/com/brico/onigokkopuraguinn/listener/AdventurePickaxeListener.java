@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -72,6 +73,15 @@ public class AdventurePickaxeListener implements Listener {
         if (event.getWhoClicked() instanceof Player player) {
             applyToInventory(player.getInventory());
         }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onBlockDamage(BlockDamageEvent event) {
+        if (event.getBlock().getType() != Material.CRACKED_STONE_BRICKS) return;
+        if (event.getItemInHand().getType() != Material.IRON_PICKAXE) return;
+
+        applyCanBreak(event.getItemInHand());
+        event.setInstaBreak(true);
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)

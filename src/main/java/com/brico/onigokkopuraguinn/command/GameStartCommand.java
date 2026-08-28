@@ -1,8 +1,11 @@
 package com.brico.onigokkopuraguinn.command;
 
 import com.brico.onigokkopuraguinn.GameManager;
+import com.brico.onigokkopuraguinn.GameTimer;
+import com.brico.onigokkopuraguinn.PlayerFreeze;
 import com.brico.onigokkopuraguinn.PoliceBaton;
 import com.brico.onigokkopuraguinn.Role;
+import com.brico.onigokkopuraguinn.ThiefSnowball;
 import com.brico.onigokkopuraguinn.listener.AdventurePickaxeListener;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -74,6 +77,8 @@ public class GameStartCommand implements CommandExecutor {
         notifyRoles(players, police);
         teleportByRole(players);
         givePoliceBaton(police);
+        giveThiefSnowballs(players);
+        freezePoliceAtStart(police);
 
         for (Player player : players) {
             AdventurePickaxeListener.applyToPlayer(player);
@@ -104,6 +109,8 @@ public class GameStartCommand implements CommandExecutor {
         CommandMessages.send(sender, "§a[ゲーム] ゲームスタート！ "
                 + "警察 1人 / 泥棒 " + (players.size() - 1) + "人、"
                 + "チェスト " + distributed + " 個にアイテムを配置しました。");
+
+        GameTimer.start(players);
         return true;
     }
 
@@ -111,6 +118,29 @@ public class GameStartCommand implements CommandExecutor {
         if (police == null) return;
         police.getInventory().addItem(PoliceBaton.create());
         police.sendMessage("§9[ゲーム] 警棒を受け取りました。泥棒を殴って捕まえよう！");
+    }
+
+    private static void giveThiefSnowballs(List<Player> players) {
+        for (Player player : players) {
+            if (GameManager.getInstance().getRole(player) != Role.THIEF) continue;
+            player.getInventory().addItem(ThiefSnowball.create(ThiefSnowball.AMOUNT));
+            player.sendMessage("§b[ゲーム] 凍結の雪玉を " + ThiefSnowball.AMOUNT
+                    + " 個受け取りました。警察に当てると3秒間動けなくなります！");
+        }
+    }
+
+    /** スタート時、警察（鬼）を30秒間動けなくする */
+    private static void freezePoliceAtStart(Player police) {
+        if (police == null) return;
+        PlayerFreeze freeze = PlayerFreeze.getInstance();
+        if (freeze == null) return;
+
+        freeze.freeze(police, 30L * 20L, "§a[ゲーム] 待機時間が終わりました。追いかけ開始！");
+        police.sendMessage("§e[ゲーム] スタートダッシュ猶予のため、30秒間動けません。");
+        for (Player player : police.getWorld().getPlayers()) {
+            if (player.equals(police)) continue;
+            player.sendMessage("§e[ゲーム] 警察は30秒間動けません。逃げ支度をしよう！");
+        }
     }
 
     private static void notifyRoles(List<Player> players, Player police) {

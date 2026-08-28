@@ -129,6 +129,17 @@ public class GameManager {
         return cleared;
     }
 
+    /**
+     * /gamereset と同じ処理：チェスト中身を空にし、役職を解除する（登録は残す）。
+     *
+     * @return 中身を空にしたチェスト数
+     */
+    public int resetGameState() {
+        int cleared = clearChestContents();
+        clearRoles();
+        return cleared;
+    }
+
     /** 登録と発光をすべて解除する */
     public void clearChests() {
         ChestHighlightManager highlight = ChestHighlightManager.getInstance();
