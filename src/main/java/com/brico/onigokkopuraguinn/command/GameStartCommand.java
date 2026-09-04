@@ -1,5 +1,6 @@
 package com.brico.onigokkopuraguinn.command;
 
+import com.brico.onigokkopuraguinn.BlackoutDevice;
 import com.brico.onigokkopuraguinn.GameManager;
 import com.brico.onigokkopuraguinn.GameTimer;
 import com.brico.onigokkopuraguinn.PlayerFreeze;
@@ -35,7 +36,7 @@ public class GameStartCommand implements CommandExecutor {
     private static final double POLICE_Y = -60;
     private static final double POLICE_Z = -22;
 
-    /** 配布するアイテム: 木の棒×2、鉄の延べ棒×3、トリップワイヤーフック×1 */
+    /** 配布するアイテム: 木の棒×2、鉄の延べ棒×3、トリップワイヤーフック×2、停電装置×2 */
     private static List<ItemStack> createGameItems() {
         List<ItemStack> items = new ArrayList<>();
         items.add(new ItemStack(Material.STICK));
@@ -44,6 +45,9 @@ public class GameStartCommand implements CommandExecutor {
         items.add(new ItemStack(Material.IRON_INGOT));
         items.add(new ItemStack(Material.IRON_INGOT));
         items.add(new ItemStack(Material.TRIPWIRE_HOOK));
+        items.add(new ItemStack(Material.TRIPWIRE_HOOK));
+        items.add(BlackoutDevice.create());
+        items.add(BlackoutDevice.create());
         return items;
     }
 
@@ -129,17 +133,17 @@ public class GameStartCommand implements CommandExecutor {
         }
     }
 
-    /** スタート時、警察（鬼）を30秒間動けなくする */
+    /** スタート時、警察（鬼）を15秒間動けなくする */
     private static void freezePoliceAtStart(Player police) {
         if (police == null) return;
         PlayerFreeze freeze = PlayerFreeze.getInstance();
         if (freeze == null) return;
 
-        freeze.freeze(police, 30L * 20L, "§a[ゲーム] 待機時間が終わりました。追いかけ開始！");
-        police.sendMessage("§e[ゲーム] スタートダッシュ猶予のため、30秒間動けません。");
+        freeze.freeze(police, 15L * 20L, "§a[ゲーム] 待機時間が終わりました。追いかけ開始！");
+        police.sendMessage("§e[ゲーム] スタートダッシュ猶予のため、15秒間動けません。");
         for (Player player : police.getWorld().getPlayers()) {
             if (player.equals(police)) continue;
-            player.sendMessage("§e[ゲーム] 警察は30秒間動けません。逃げ支度をしよう！");
+            player.sendMessage("§e[ゲーム] 警察は15秒間動けません。逃げ支度をしよう！");
         }
     }
 

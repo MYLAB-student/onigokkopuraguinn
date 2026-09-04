@@ -2,6 +2,7 @@ package com.brico.onigokkopuraguinn.listener;
 
 import com.brico.onigokkopuraguinn.ChestHighlightManager;
 import com.brico.onigokkopuraguinn.GameManager;
+import com.brico.onigokkopuraguinn.Role;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -76,6 +77,10 @@ public class HighlightProtectListener implements Listener {
     }
 
     private static void openChest(Player player, Block block) {
+        if (GameManager.getInstance().getRole(player) == Role.POLICE) {
+            player.sendMessage("§c[ゲーム] 警察はチェストを開けられません。");
+            return;
+        }
         if (!(block.getState() instanceof Chest chest)) {
             return;
         }

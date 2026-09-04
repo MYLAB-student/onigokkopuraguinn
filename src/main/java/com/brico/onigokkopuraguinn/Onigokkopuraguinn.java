@@ -4,6 +4,7 @@ import com.brico.onigokkopuraguinn.command.GameClearCommand;
 import com.brico.onigokkopuraguinn.command.GameResetCommand;
 import com.brico.onigokkopuraguinn.command.GameStartCommand;
 import com.brico.onigokkopuraguinn.listener.AdventurePickaxeListener;
+import com.brico.onigokkopuraguinn.listener.BlackoutDeviceListener;
 import com.brico.onigokkopuraguinn.listener.ChestSetListener;
 import com.brico.onigokkopuraguinn.listener.FarmlandProtectListener;
 import com.brico.onigokkopuraguinn.listener.HighlightProtectListener;
@@ -12,6 +13,7 @@ import com.brico.onigokkopuraguinn.listener.NoHungerListener;
 import com.brico.onigokkopuraguinn.listener.PlayerVisibilityListener;
 import com.brico.onigokkopuraguinn.listener.PoliceWinChecker;
 import com.brico.onigokkopuraguinn.listener.PoliceBatonListener;
+import com.brico.onigokkopuraguinn.listener.PoliceChestBlockListener;
 import com.brico.onigokkopuraguinn.listener.ThiefSnowballListener;
 import com.brico.onigokkopuraguinn.listener.TripwireDoorListener;
 import org.bukkit.Bukkit;
@@ -24,6 +26,7 @@ public final class Onigokkopuraguinn extends JavaPlugin {
         new ChestHighlightManager(this);
         PoliceBaton.init(this);
         ThiefSnowball.init(this);
+        BlackoutDevice.init(this);
         GameTimer.init(this);
 
         // ワールドスポーン周辺の保護を無効化
@@ -41,7 +44,9 @@ public final class Onigokkopuraguinn extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new TripwireDoorListener(this), this);
         getServer().getPluginManager().registerEvents(new AdventurePickaxeListener(), this);
         getServer().getPluginManager().registerEvents(new PoliceBatonListener(), this);
+        getServer().getPluginManager().registerEvents(new PoliceChestBlockListener(), this);
         getServer().getPluginManager().registerEvents(new ThiefSnowballListener(), this);
+        getServer().getPluginManager().registerEvents(new BlackoutDeviceListener(this), this);
         getServer().getPluginManager().registerEvents(new FarmlandProtectListener(), this);
 
         PoliceWinChecker.start(this);
