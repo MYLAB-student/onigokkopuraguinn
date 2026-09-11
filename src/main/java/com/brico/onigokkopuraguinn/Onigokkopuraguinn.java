@@ -9,6 +9,7 @@ import com.brico.onigokkopuraguinn.listener.ChestSetListener;
 import com.brico.onigokkopuraguinn.listener.FarmlandProtectListener;
 import com.brico.onigokkopuraguinn.listener.HighlightProtectListener;
 import com.brico.onigokkopuraguinn.listener.NightVisionListener;
+import com.brico.onigokkopuraguinn.listener.NoDamageListener;
 import com.brico.onigokkopuraguinn.listener.NoHungerListener;
 import com.brico.onigokkopuraguinn.listener.PlayerVisibilityListener;
 import com.brico.onigokkopuraguinn.listener.PoliceWinChecker;
@@ -38,6 +39,7 @@ public final class Onigokkopuraguinn extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerFreeze(this), this);
         getServer().getPluginManager().registerEvents(new NightVisionListener(), this);
         getServer().getPluginManager().registerEvents(new NoHungerListener(), this);
+        getServer().getPluginManager().registerEvents(new NoDamageListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerVisibilityListener(), this);
         getServer().getPluginManager().registerEvents(new ChestSetListener(), this);
         getServer().getPluginManager().registerEvents(new HighlightProtectListener(), this);
@@ -73,6 +75,7 @@ public final class Onigokkopuraguinn extends JavaPlugin {
         // オンライン中のプレイヤーにも付与（再起動後など）
         Bukkit.getOnlinePlayers().forEach(NightVisionListener::applyNightVision);
         Bukkit.getOnlinePlayers().forEach(NoHungerListener::fillHunger);
+        Bukkit.getOnlinePlayers().forEach(NoDamageListener::fillHealth);
         Bukkit.getOnlinePlayers().forEach(AdventurePickaxeListener::applyToPlayer);
         PlayerVisibilityListener.applyAll();
     }
