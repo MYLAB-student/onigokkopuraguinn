@@ -20,6 +20,8 @@ public class GameManager {
 
     private final List<Location> chestLocations = new ArrayList<>();
     private final Map<UUID, Role> roles = new HashMap<>();
+    /** 試合中に壊されたひび割れた石レンガ */
+    private final List<Location> brokenCrackedBricks = new ArrayList<>();
 
     private GameManager() {}
 
@@ -46,6 +48,8 @@ public class GameManager {
      */
     public Player assignRoles(List<Player> players) {
         roles.clear();
+        brokenCrackedBricks.clear();
+        ThiefCatchState.clearAll();
         if (players.isEmpty()) {
             return null;
         }
@@ -64,6 +68,35 @@ public class GameManager {
 
     public void clearRoles() {
         roles.clear();
+        ThiefCatchState.clearAll();
+    }
+
+    /** 試合中に壊されたひび割れた石レンガの位置を記録する */
+    public void recordBrokenCrackedBrick(Location location) {
+        if (roles.isEmpty()) return;
+        Location blockLoc = location.toBlockLocation();
+        for (Location loc : brokenCrackedBricks) {
+            if (loc.getBlockX() == blockLoc.getBlockX()
+                    && loc.getBlockY() == blockLoc.getBlockY()
+                    && loc.getBlockZ() == blockLoc.getBlockZ()
+                    && loc.getWorld() != null
+                    && loc.getWorld().equals(blockLoc.getWorld())) {
+                return;
+            }
+        }
+        brokenCrackedBricks.add(blockLoc);
+    }
+
+    /** 壊されたひび割れた石レンガを元に戻す */
+    public int restoreBrokenCrackedBricks() {
+        int restored = 0;
+        for (Location loc : brokenCrackedBricks) {
+            Block block = loc.getBlock();
+            block.setType(Material.CRACKED_STONE_BRICKS);
+            restored++;
+        }
+        brokenCrackedBricks.clear();
+        return restored;
     }
 
     public boolean addChest(Location location) {
@@ -149,9 +182,9 @@ public class GameManager {
         chestLocations.clear();
     }
 
-    /** ゲームで使うアイテム数（木の棒×2 + 鉄の延べ棒×3 + トリップワイヤーフック×2 + 停電装置×2） */
+    /** ゲームで使うアイテム数（木の棒×2 + 鉄の延べ棒×3 + トリップワイヤーフック×4 + 停電装置×2 + 凍結の雪玉×20） */
     public static int requiredChestCount() {
-        return 9;
+        return 31;
     }
 
     /** 登録済みチェストをシャッフルして先頭 N 件を返す */

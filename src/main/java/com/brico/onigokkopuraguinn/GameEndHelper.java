@@ -20,6 +20,9 @@ public final class GameEndHelper {
     public static void endWithTitle(Collection<Player> players, String titleText, NamedTextColor color) {
         GameTimer.stop();
 
+        // 試合中に壊されたひび割れた石レンガを復元
+        GameManager.getInstance().restoreBrokenCrackedBricks();
+
         // /gamereset と同じ：チェスト中身クリア＋役職解除
         GameManager.getInstance().resetGameState();
 

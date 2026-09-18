@@ -15,7 +15,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class ThiefSnowball {
 
     public static final String DISPLAY_NAME = "凍結の雪玉";
-    public static final int AMOUNT = 5;
+    public static final int AMOUNT = 10;
+    /** チェストに1個ずつ入れる個数 */
+    public static final int CHEST_AMOUNT = 20;
 
     private static NamespacedKey key;
 

@@ -1,5 +1,6 @@
 package com.brico.onigokkopuraguinn.listener;
 
+import com.brico.onigokkopuraguinn.GameManager;
 import io.papermc.paper.block.BlockPredicate;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.ItemAdventurePredicate;
@@ -82,6 +83,13 @@ public class AdventurePickaxeListener implements Listener {
 
         applyCanBreak(event.getItemInHand());
         event.setInstaBreak(true);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onBlockBreakRecord(BlockBreakEvent event) {
+        // 試合中に壊されたひび割れた石レンガを記録
+        if (event.getBlock().getType() != Material.CRACKED_STONE_BRICKS) return;
+        GameManager.getInstance().recordBrokenCrackedBrick(event.getBlock().getLocation());
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)

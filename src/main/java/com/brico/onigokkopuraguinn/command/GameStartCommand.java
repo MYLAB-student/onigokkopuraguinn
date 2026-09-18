@@ -36,7 +36,7 @@ public class GameStartCommand implements CommandExecutor {
     private static final double POLICE_Y = -60;
     private static final double POLICE_Z = -22;
 
-    /** 配布するアイテム: 木の棒×2、鉄の延べ棒×3、トリップワイヤーフック×2、停電装置×2 */
+    /** 配布するアイテム: 木の棒×2、鉄の延べ棒×3、トリップワイヤーフック×4、停電装置×2、凍結の雪玉×20 */
     private static List<ItemStack> createGameItems() {
         List<ItemStack> items = new ArrayList<>();
         items.add(new ItemStack(Material.STICK));
@@ -46,8 +46,13 @@ public class GameStartCommand implements CommandExecutor {
         items.add(new ItemStack(Material.IRON_INGOT));
         items.add(new ItemStack(Material.TRIPWIRE_HOOK));
         items.add(new ItemStack(Material.TRIPWIRE_HOOK));
+        items.add(new ItemStack(Material.TRIPWIRE_HOOK));
+        items.add(new ItemStack(Material.TRIPWIRE_HOOK));
         items.add(BlackoutDevice.create());
         items.add(BlackoutDevice.create());
+        for (int i = 0; i < ThiefSnowball.CHEST_AMOUNT; i++) {
+            items.add(ThiefSnowball.create(1));
+        }
         return items;
     }
 
