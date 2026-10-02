@@ -17,6 +17,7 @@ import com.brico.onigokkopuraguinn.listener.PoliceBatonListener;
 import com.brico.onigokkopuraguinn.listener.PoliceChestBlockListener;
 import com.brico.onigokkopuraguinn.listener.ThiefSnowballListener;
 import com.brico.onigokkopuraguinn.listener.TripwireDoorListener;
+import com.brico.onigokkopuraguinn.listener.WarpPadListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -50,6 +51,7 @@ public final class Onigokkopuraguinn extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ThiefSnowballListener(), this);
         getServer().getPluginManager().registerEvents(new BlackoutDeviceListener(this), this);
         getServer().getPluginManager().registerEvents(new FarmlandProtectListener(), this);
+        getServer().getPluginManager().registerEvents(new WarpPadListener(), this);
 
         PoliceWinChecker.start(this);
 

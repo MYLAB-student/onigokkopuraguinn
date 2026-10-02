@@ -7,6 +7,8 @@ import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.brico.onigokkopuraguinn.listener.WarpPadListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -50,6 +52,7 @@ public class GameManager {
         roles.clear();
         brokenCrackedBricks.clear();
         ThiefCatchState.clearAll();
+        WarpPadListener.clearCooldowns();
         if (players.isEmpty()) {
             return null;
         }
@@ -69,6 +72,7 @@ public class GameManager {
     public void clearRoles() {
         roles.clear();
         ThiefCatchState.clearAll();
+        WarpPadListener.clearCooldowns();
     }
 
     /** 試合中に壊されたひび割れた石レンガの位置を記録する */

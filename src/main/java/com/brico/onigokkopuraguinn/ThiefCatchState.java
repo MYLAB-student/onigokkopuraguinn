@@ -26,7 +26,7 @@ public final class ThiefCatchState {
     public static final double JAIL_Z = -82;
 
     /** 牢屋脱出判定の距離（ブロック） */
-    private static final double JAIL_ESCAPE_DISTANCE = 4.0;
+    private static final double JAIL_ESCAPE_DISTANCE = 7.0;
 
     private static final long BATON_IMMUNITY_MILLIS = 5_000L;
 
