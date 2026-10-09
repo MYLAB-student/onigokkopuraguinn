@@ -30,6 +30,10 @@ public class WarpPadListener implements Listener {
         cooldownUntil.clear();
     }
 
+    public static void clearCooldown(UUID uuid) {
+        cooldownUntil.remove(uuid);
+    }
+
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         if (event.getTo() == null) return;

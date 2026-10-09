@@ -1,11 +1,13 @@
 package com.brico.onigokkopuraguinn;
 
+import com.brico.onigokkopuraguinn.listener.PlayerSessionListener;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 
 import java.time.Duration;
 import java.util.Collection;
@@ -16,6 +18,22 @@ import java.util.Collection;
 public final class GameEndHelper {
 
     private GameEndHelper() {}
+
+    /**
+     * 通常インベントリと、プレイヤー画面の2×2作業欄を空にする。
+     *
+     * @param clearCursor true ならマウスで掴んでいるアイテムも消す
+     */
+    public static void clearPlayerItems(Player player, boolean clearCursor) {
+        player.getInventory().clear();
+        Inventory top = player.getOpenInventory().getTopInventory();
+        if (top.getType() == InventoryType.CRAFTING) {
+            top.clear();
+        }
+        if (clearCursor) {
+            player.setItemOnCursor(null);
+        }
+    }
 
     public static void endWithTitle(Collection<Player> players, String titleText, NamedTextColor color) {
         GameTimer.stop();
@@ -33,10 +51,9 @@ public final class GameEndHelper {
         );
 
         for (Player player : players) {
-            player.getInventory().clear();
+            clearPlayerItems(player, true);
             player.showTitle(title);
-            Location spawn = player.getWorld().getSpawnLocation().clone().add(0.5, 0, 0.5);
-            player.teleport(spawn);
+            player.teleport(PlayerSessionListener.lobbyLocation(player));
         }
     }
 

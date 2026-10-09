@@ -42,6 +42,12 @@ public final class ThiefCatchState {
         inJail.clear();
     }
 
+    public static void clear(UUID uuid) {
+        hitCounts.remove(uuid);
+        batonImmuneUntil.remove(uuid);
+        inJail.remove(uuid);
+    }
+
     public static int getHitCount(Player player) {
         return hitCounts.getOrDefault(player.getUniqueId(), 0);
     }

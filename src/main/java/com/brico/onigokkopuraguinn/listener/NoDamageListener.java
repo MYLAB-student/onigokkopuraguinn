@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 /**
- * プレイヤーのHPが減らないようにする。
+ * プレイヤーは /kill 以外ではダメージ・死亡しない。
  */
 public class NoDamageListener implements Listener {
 
@@ -22,6 +22,10 @@ public class NoDamageListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
+        // /kill（例: /kill @e）のみ通す
+        if (event.getCause() == EntityDamageEvent.DamageCause.KILL) {
+            return;
+        }
         event.setCancelled(true);
         fillHealth(player);
     }

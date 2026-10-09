@@ -37,15 +37,23 @@ public class AdventurePickaxeListener implements Listener {
 
     @EventHandler
     public void onPrepareCraft(PrepareItemCraftEvent event) {
-        applyCanBreak(event.getInventory().getResult());
+        ItemStack result = event.getInventory().getResult();
+        if (result == null || result.getType().isAir()) return;
+        if (result.getType() != Material.IRON_PICKAXE) {
+            event.getInventory().setResult(null);
+            return;
+        }
+        applyCanBreak(result);
     }
 
     @EventHandler
     public void onCraft(CraftItemEvent event) {
         ItemStack result = event.getCurrentItem();
-        if (result != null) {
-            applyCanBreak(result);
+        if (result == null || result.getType() != Material.IRON_PICKAXE) {
+            event.setCancelled(true);
+            return;
         }
+        applyCanBreak(result);
     }
 
     @EventHandler

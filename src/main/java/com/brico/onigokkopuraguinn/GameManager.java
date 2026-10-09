@@ -75,6 +75,13 @@ public class GameManager {
         WarpPadListener.clearCooldowns();
     }
 
+    /** 指定プレイヤーの役職と関連状態を解除する（ログアウト時など） */
+    public void removeRole(UUID uuid) {
+        roles.remove(uuid);
+        ThiefCatchState.clear(uuid);
+        WarpPadListener.clearCooldown(uuid);
+    }
+
     /** 試合中に壊されたひび割れた石レンガの位置を記録する */
     public void recordBrokenCrackedBrick(Location location) {
         if (roles.isEmpty()) return;

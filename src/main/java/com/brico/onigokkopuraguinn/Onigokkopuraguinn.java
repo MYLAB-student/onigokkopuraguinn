@@ -4,13 +4,19 @@ import com.brico.onigokkopuraguinn.command.GameClearCommand;
 import com.brico.onigokkopuraguinn.command.GameResetCommand;
 import com.brico.onigokkopuraguinn.command.GameStartCommand;
 import com.brico.onigokkopuraguinn.listener.AdventurePickaxeListener;
+import com.brico.onigokkopuraguinn.listener.AlwaysDayListener;
 import com.brico.onigokkopuraguinn.listener.BlackoutDeviceListener;
 import com.brico.onigokkopuraguinn.listener.ChestSetListener;
+import com.brico.onigokkopuraguinn.listener.ContainerRestrictListener;
 import com.brico.onigokkopuraguinn.listener.FarmlandProtectListener;
 import com.brico.onigokkopuraguinn.listener.HighlightProtectListener;
 import com.brico.onigokkopuraguinn.listener.NightVisionListener;
+import com.brico.onigokkopuraguinn.listener.NoBedSpawnListener;
 import com.brico.onigokkopuraguinn.listener.NoDamageListener;
 import com.brico.onigokkopuraguinn.listener.NoHungerListener;
+import com.brico.onigokkopuraguinn.listener.NoItemDropListener;
+import com.brico.onigokkopuraguinn.listener.OpRestrictListener;
+import com.brico.onigokkopuraguinn.listener.PlayerSessionListener;
 import com.brico.onigokkopuraguinn.listener.PlayerVisibilityListener;
 import com.brico.onigokkopuraguinn.listener.PoliceWinChecker;
 import com.brico.onigokkopuraguinn.listener.PoliceBatonListener;
@@ -38,11 +44,17 @@ public final class Onigokkopuraguinn extends JavaPlugin {
         GameManager.getInstance().registerSelectedChests();
 
         getServer().getPluginManager().registerEvents(new PlayerFreeze(this), this);
+        getServer().getPluginManager().registerEvents(new AlwaysDayListener(), this);
         getServer().getPluginManager().registerEvents(new NightVisionListener(), this);
         getServer().getPluginManager().registerEvents(new NoHungerListener(), this);
         getServer().getPluginManager().registerEvents(new NoDamageListener(), this);
+        getServer().getPluginManager().registerEvents(new NoItemDropListener(), this);
+        getServer().getPluginManager().registerEvents(new NoBedSpawnListener(), this);
+        getServer().getPluginManager().registerEvents(new OpRestrictListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerVisibilityListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerSessionListener(), this);
         getServer().getPluginManager().registerEvents(new ChestSetListener(), this);
+        getServer().getPluginManager().registerEvents(new ContainerRestrictListener(), this);
         getServer().getPluginManager().registerEvents(new HighlightProtectListener(), this);
         getServer().getPluginManager().registerEvents(new TripwireDoorListener(this), this);
         getServer().getPluginManager().registerEvents(new AdventurePickaxeListener(), this);
@@ -79,7 +91,9 @@ public final class Onigokkopuraguinn extends JavaPlugin {
         Bukkit.getOnlinePlayers().forEach(NoHungerListener::fillHunger);
         Bukkit.getOnlinePlayers().forEach(NoDamageListener::fillHealth);
         Bukkit.getOnlinePlayers().forEach(AdventurePickaxeListener::applyToPlayer);
+        Bukkit.getOnlinePlayers().forEach(PlayerSessionListener::applyJoinDefaults);
         PlayerVisibilityListener.applyAll();
+        AlwaysDayListener.applyAll();
     }
 
     @Override
