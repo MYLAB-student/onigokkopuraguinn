@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 /**
- * チェストと作業台以外のコンテナ／GUIブロックを開けないようにする。
+ * チェスト・作業台・書見台以外のコンテナ／GUIブロックを開けないようにする。
  */
 public class ContainerRestrictListener implements Listener {
 
@@ -28,7 +28,8 @@ public class ContainerRestrictListener implements Listener {
         Material type = block.getType();
         if (type == Material.CHEST
                 || type == Material.TRAPPED_CHEST
-                || type == Material.CRAFTING_TABLE) {
+                || type == Material.CRAFTING_TABLE
+                || type == Material.LECTERN) {
             return;
         }
 
@@ -46,7 +47,8 @@ public class ContainerRestrictListener implements Listener {
                 || type == InventoryType.WORKBENCH
                 || type == InventoryType.CRAFTING
                 || type == InventoryType.CREATIVE
-                || type == InventoryType.PLAYER) {
+                || type == InventoryType.PLAYER
+                || type == InventoryType.LECTERN) {
             return;
         }
 
@@ -73,8 +75,7 @@ public class ContainerRestrictListener implements Listener {
                  CARTOGRAPHY_TABLE,
                  STONECUTTER,
                  SMITHING_TABLE,
-                 BEACON,
-                 LECTERN -> true;
+                 BEACON -> true;
             default -> type.name().endsWith("SHULKER_BOX");
         };
     }
