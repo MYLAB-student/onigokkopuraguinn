@@ -10,6 +10,7 @@ import com.brico.onigokkopuraguinn.listener.ChestSetListener;
 import com.brico.onigokkopuraguinn.listener.ContainerRestrictListener;
 import com.brico.onigokkopuraguinn.listener.FarmlandProtectListener;
 import com.brico.onigokkopuraguinn.listener.HighlightProtectListener;
+import com.brico.onigokkopuraguinn.listener.MossyCobbleStartChecker;
 import com.brico.onigokkopuraguinn.listener.NightVisionListener;
 import com.brico.onigokkopuraguinn.listener.NoBedSpawnListener;
 import com.brico.onigokkopuraguinn.listener.NoDamageListener;
@@ -66,6 +67,7 @@ public final class Onigokkopuraguinn extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new WarpPadListener(), this);
 
         PoliceWinChecker.start(this);
+        MossyCobbleStartChecker.start(this);
 
         // 権限デフォルト true ＋ 明示設定でコマンドブロックからも実行可能にする
         var cmd = getCommand("gamestart");
@@ -100,6 +102,7 @@ public final class Onigokkopuraguinn extends JavaPlugin {
     public void onDisable() {
         GameTimer.stop();
         PoliceWinChecker.stop();
+        MossyCobbleStartChecker.stop();
         // 選択マーカーはワールドに残し、再有効化時・/gamestart 時に自動登録へ使う
     }
 }

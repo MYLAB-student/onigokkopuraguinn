@@ -21,6 +21,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -58,27 +59,39 @@ public class GameStartCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        GameManager manager = GameManager.getInstance();
         List<Player> players = CommandMessages.targetPlayers(sender);
+        String result = startGame(players);
+        if (result != null) {
+            CommandMessages.send(sender, result);
+        }
+        return true;
+    }
+
+    /**
+     * ゲームを開始する。
+     *
+     * @return 失敗時はエラーメッセージ。成功時は null（開始メッセージはプレイヤーへ直接送信）
+     */
+    public static String startGame(Collection<Player> targetPlayers) {
+        GameManager manager = GameManager.getInstance();
+        List<Player> players = new ArrayList<>(targetPlayers);
 
         if (players.isEmpty()) {
-            CommandMessages.send(sender, "§c[ゲーム] 対象プレイヤーがいません。");
-            return true;
+            return "§c[ゲーム] 対象プレイヤーがいません。";
         }
 
         // ブレイズロッドで選択中（緑発光）のチェストを自動登録
         int newlyRegistered = manager.registerSelectedChests();
         if (newlyRegistered > 0) {
-            CommandMessages.send(sender, "§a[ゲーム] 選択中のチェストを " + newlyRegistered + " 個自動登録しました。");
+            broadcast(players, "§a[ゲーム] 選択中のチェストを " + newlyRegistered + " 個自動登録しました。");
         }
 
         int required = GameManager.requiredChestCount();
         if (manager.getChestLocations().size() < required) {
-            CommandMessages.send(sender, "§c[ゲーム] チェストが足りません。"
+            return "§c[ゲーム] チェストが足りません。"
                     + "必要数: " + required
                     + " / 登録数: " + manager.getChestLocations().size()
-                    + " §7(ブレイズロッドでチェストを選択してください)");
-            return true;
+                    + " §7(ブレイズロッドでチェストを選択してください)";
         }
 
         // 役職割り当て: ランダムで1人警察、それ以外泥棒
@@ -104,7 +117,7 @@ public class GameStartCommand implements CommandExecutor {
             Block block = loc.getBlock();
 
             if (!(block.getState() instanceof Chest chest)) {
-                CommandMessages.send(sender, "§c[ゲーム] チェストが見つかりませんでした: "
+                broadcast(players, "§c[ゲーム] チェストが見つかりませんでした: "
                         + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
                 continue;
             }
@@ -115,12 +128,18 @@ public class GameStartCommand implements CommandExecutor {
             distributed++;
         }
 
-        CommandMessages.send(sender, "§a[ゲーム] ゲームスタート！ "
+        broadcast(players, "§a[ゲーム] ゲームスタート！ "
                 + "警察 1人 / 泥棒 " + (players.size() - 1) + "人、"
                 + "チェスト " + distributed + " 個にアイテムを配置しました。");
 
         GameTimer.start(players);
-        return true;
+        return null;
+    }
+
+    private static void broadcast(List<Player> players, String message) {
+        for (Player player : players) {
+            player.sendMessage(message);
+        }
     }
 
     private static void givePoliceBaton(Player police) {
