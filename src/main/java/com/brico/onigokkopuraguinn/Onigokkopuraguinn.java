@@ -6,6 +6,7 @@ import com.brico.onigokkopuraguinn.command.GameStartCommand;
 import com.brico.onigokkopuraguinn.listener.AdventurePickaxeListener;
 import com.brico.onigokkopuraguinn.listener.AlwaysDayListener;
 import com.brico.onigokkopuraguinn.listener.BlackoutDeviceListener;
+import com.brico.onigokkopuraguinn.listener.CherryButtonWinListener;
 import com.brico.onigokkopuraguinn.listener.ChestSetListener;
 import com.brico.onigokkopuraguinn.listener.ContainerRestrictListener;
 import com.brico.onigokkopuraguinn.listener.FarmlandProtectListener;
@@ -65,6 +66,7 @@ public final class Onigokkopuraguinn extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlackoutDeviceListener(this), this);
         getServer().getPluginManager().registerEvents(new FarmlandProtectListener(), this);
         getServer().getPluginManager().registerEvents(new WarpPadListener(), this);
+        getServer().getPluginManager().registerEvents(new CherryButtonWinListener(), this);
 
         PoliceWinChecker.start(this);
         MossyCobbleStartChecker.start(this);
